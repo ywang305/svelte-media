@@ -14,8 +14,9 @@
   map
     .on('moveend', async () => {
       const data = await getPlace(map.getCenter());
-      const place_name = data?.features?.[0]?.place_name;
-      placeStr = place_name ?? placeStr;
+      const place_name =
+        data && data.features[0] && data.features[0].place_name;
+      placeStr = place_name || placeStr;
     })
     .on('movestart', clearSuggests)
     .on('click', clearSuggests);
@@ -24,10 +25,12 @@
     placeStr = e.target.value;
     const data = await getPlaceSuggests(placeStr, map.getCenter());
     suggests =
-      data?.features?.map(({ place_name, center }) => ({
-        place_name,
-        center: { lng: center[0], lat: center[1] },
-      })) ?? [];
+      (data &&
+        data.features.map(({ place_name, center }) => ({
+          place_name,
+          center: { lng: center[0], lat: center[1] },
+        }))) ||
+      [];
   };
 
   const onClickSuggest = (i) => () => {
