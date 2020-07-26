@@ -9,7 +9,7 @@ const key = {};
 const placesUri = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
 const getPlaceSuggests = async (queryStr, center) => {
-  if (queryStr?.trim().length < 2) return [];
+  if (queryStr.trim().length < 2) return [];
   const encodedStr = encodeURI(queryStr);
   const queryCenter = center ? `proximity=${center.lng},${center.lat}&` : '';
   try {
