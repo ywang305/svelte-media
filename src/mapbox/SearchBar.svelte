@@ -83,6 +83,7 @@
   {#if suggests.length}
     <div id="vertical-menu">
       {#each suggests as { place_name, center }, i}
+        <!-- svelte-ignore a11y-invalid-attribute -->
         <a href="#" on:click={onClickSuggest(i)}>{place_name}</a>
       {/each}
     </div>
