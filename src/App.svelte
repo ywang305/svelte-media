@@ -46,8 +46,7 @@
     <MapMarker lat={40.6986} lon={-74.4100} label="Svelte Medical Systems"/> -->
   </Map>
   <p>
-    Visit the
-    <a href="https://svelte.dev/tutorial">Svelte tutorial</a>
-    to learn how to build Svelte apps.
+    This app is built by
+    <a href="https://svelte.dev/tutorial">Svelte</a>
   </p>
 </main>

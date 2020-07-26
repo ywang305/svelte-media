@@ -1,6 +1,7 @@
 <script>
   import { getContext } from 'svelte';
   import { mapboxgl, key, getPlace, getPlaceSuggests } from './mapbox.js';
+  import IconMaker from '../components/IconMaker.svelte';
 
   const { getMap } = getContext(key);
   const map = getMap();
@@ -15,7 +16,10 @@
     .on('moveend', async () => {
       const data = await getPlace(map.getCenter());
       const place_name =
-        data && data.features[0] && data.features[0].place_name;
+        data &&
+        data.features &&
+        data.features[0] &&
+        data.features[0].place_name.split(',').slice(0, 2).join(',');
       placeStr = place_name || placeStr;
     })
     .on('movestart', clearSuggests)
@@ -26,10 +30,26 @@
     const data = await getPlaceSuggests(placeStr, map.getCenter());
     suggests =
       (data &&
-        data.features.map(({ place_name, center }) => ({
-          place_name,
-          center: { lng: center[0], lat: center[1] },
-        }))) ||
+        data.features &&
+        data.features.map(({ place_name, center, place_type, properties }) => {
+          switch (place_type[0]) {
+            case 'address':
+              place_type = 'address';
+              break;
+            case 'poi': {
+              if (properties.category === 'airport') place_type = 'airport';
+              else place_type = 'place';
+              break;
+            }
+            default:
+              place_type = 'place'; // country, region, post, neighberhood...
+          }
+          return {
+            place_name,
+            center: { lng: center[0], lat: center[1] },
+            place_type,
+          };
+        })) ||
       [];
   };
 
@@ -37,6 +57,12 @@
     const { center } = suggests[i];
     map.flyTo({ center });
     clearSuggests();
+  };
+
+  const icon_uri = {
+    airport: 'svg/3112/3112928.svg',
+    address: 'svg/717/717530.svg',
+    place: 'svg/2909/2909523.svg',
   };
 </script>
 
@@ -60,20 +86,27 @@
     border: 0;
     font-size: 1.2em;
   }
+
   #vertical-menu a {
-    background-color: #eee; /* Grey background color */
+    background-color: rgb(248, 248, 248); /* Grey background color */
     color: black; /* Black text color */
-    display: block; /* Make the links appear below each other */
+    display: flex; /* Make the links appear below each other */
     padding: 12px; /* Add some padding */
     text-decoration: none; /* Remove underline from links */
     text-align: left;
     font-style: italic;
   }
   #vertical-menu a:nth-child(even) {
-    background-color: rgb(250, 246, 240);
+    background-color: rgb(237, 234, 255);
   }
   #vertical-menu a:hover {
     background-color: #ccc; /* Dark grey background on mouse-over */
+  }
+  .icon {
+    display: inline-block;
+    min-width: 1.5em;
+    margin-right: 1em;
+    flex: 0 1 0%;
   }
 </style>
 
@@ -85,9 +118,15 @@
     placeholder="enter address" />
   {#if suggests.length}
     <div id="vertical-menu">
-      {#each suggests as { place_name, center }, i}
+      {#each suggests as { place_name, center, place_type }, i}
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a href="#" on:click={onClickSuggest(i)}>{place_name}</a>
+        <a href="#" on:click={onClickSuggest(i)}>
+          <div class="icon">
+            <IconMaker path={icon_uri[place_type]} />
+          </div>
+          <label>{place_name}</label>
+
+        </a>
       {/each}
     </div>
   {/if}
