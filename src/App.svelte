@@ -1,8 +1,5 @@
 <script>
-  import Map from './mapbox/Map.svelte';
-  import MapStyleButtons from './mapbox/MapStyleButtons.svelte';
-  import CentralMarker from './mapbox/CentralMarker.svelte';
-  import SearchBar from './mapbox/SearchBar.svelte';
+  import MapBox from './mapbox/MapBox.svelte';
   // import MapMarker from './mapbox/MapMarker.svelte';
 
   export let name;
@@ -30,21 +27,15 @@
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Roboto+Mono" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 </svelte:head>
 
 <main>
   <h1>Hello {name}!</h1>
-  <Map lat={40.7127837} lon={-74.0059413} zoom={13}>
-    <MapStyleButtons />
-    <CentralMarker />
-    <SearchBar />
-    <!-- <MapMarker lat={37.8225} lon={-122.0024} label="Svelte Body Shaping"/>
-    <MapMarker lat={33.8981} lon={-118.4169} label="Svelte Barbershop & Essentials"/>
-    <MapMarker lat={29.7230} lon={-95.4189} label="Svelte Waxing Studio"/>
-    <MapMarker lat={28.3378} lon={-81.3966} label="Svelte 30 Nutritional Consultants"/>
-    <MapMarker lat={40.6483} lon={-74.0237} label="Svelte Brands LLC"/>
-    <MapMarker lat={40.6986} lon={-74.4100} label="Svelte Medical Systems"/> -->
-  </Map>
+  <MapBox />
   <p>
     This app is built by
     <a href="https://svelte.dev/tutorial">Svelte</a>

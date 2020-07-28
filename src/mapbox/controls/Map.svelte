@@ -7,7 +7,7 @@
   });
 
   export let lat;
-  export let lon;
+  export let lng;
   export let zoom;
 
   let container;
@@ -20,9 +20,9 @@
 
     link.onload = () => {
       map = new mapboxgl.Map({
-        container: container,
+        container,
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [lon, lat],
+        center: [lng, lat],
         zoom,
         pitch: 0,
         attributionControl: false,

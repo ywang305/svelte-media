@@ -1,7 +1,8 @@
 <script>
   import { getContext } from 'svelte';
+  import { slide } from 'svelte/transition';
   import { mapboxgl, key, getPlace, getPlaceSuggests } from './mapbox.js';
-  import IconMaker from '../components/IconMaker.svelte';
+  import IconMaker from '../../components/IconMaker.svelte';
 
   const { getMap } = getContext(key);
   const map = getMap();
@@ -117,7 +118,7 @@
     on:focus={onInputHandler}
     placeholder="enter address" />
   {#if suggests.length}
-    <div id="vertical-menu">
+    <div id="vertical-menu" transition:slide>
       {#each suggests as { place_name, center, place_type }, i}
         <!-- svelte-ignore a11y-invalid-attribute -->
         <a href="#" on:click={onClickSuggest(i)}>
@@ -125,7 +126,6 @@
             <IconMaker path={icon_uri[place_type]} />
           </div>
           <label>{place_name}</label>
-
         </a>
       {/each}
     </div>
