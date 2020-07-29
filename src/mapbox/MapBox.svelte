@@ -4,6 +4,7 @@
   import CentralMarker from './controls/CentralMarker.svelte';
   import SearchBar from './controls/SearchBar.svelte';
   import BreathMarker from './controls/BreathMarker.svelte';
+  import MdiaMarkersAround from './controls/media/MdiaMarkersAround.svelte';
 </script>
 
 <Map lat={40.7127837} lng={-74.0059413} zoom={13}>
@@ -11,6 +12,7 @@
   <CentralMarker />
   <SearchBar />
   <BreathMarker lat={40.7127837} lng={-74.0059413} />
+  <MdiaMarkersAround />
   <!-- <MapMarker lat={37.8225} lon={-122.0024} label="Svelte Body Shaping"/>
     <MapMarker lat={33.8981} lon={-118.4169} label="Svelte Barbershop & Essentials"/>
     <MapMarker lat={29.7230} lon={-95.4189} label="Svelte Waxing Studio"/>

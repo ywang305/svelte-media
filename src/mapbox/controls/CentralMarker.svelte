@@ -9,10 +9,5 @@
     .setLngLat(map.getCenter())
     .addTo(map);
 
-  async function setCentralMark() {
-    const { lon, lat } = map.getCenter();
-    marker.setLngLat(map.getCenter());
-  }
-
-  map.on('move', setCentralMark);
+  map.on('move', () => marker.setLngLat(map.getCenter()));
 </script>
