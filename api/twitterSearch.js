@@ -6,7 +6,12 @@ export default async (req, res) => {
   const { query } = req;
   const { lat, lng } = query;
   const resp = await fetch(
-    TWITTER_SEARCH + `?geocode=${lat},${lng},5mi&result_type=mixed&count=100`
+    TWITTER_SEARCH + `?geocode=${lat},${lng},5mi&result_type=mixed&count=100`,
+    {
+      headers: {
+        Authorization: 'Bearer ' + process.env.TWITTER_TOKEN,
+      },
+    }
   );
   const json = await resp.json();
   res.status(200).json(
