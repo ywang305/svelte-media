@@ -12,6 +12,8 @@
     new mapboxgl.Marker(iconEl).setLngLat({ lng, lat }).addTo(map);
   });
 
+  const delay = Math.random() * (8 - 0) + 0;
+
   export let media;
 
   const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
@@ -63,17 +65,12 @@
     background: purple;
     animation: ripple 10s infinite;
   }
-  .delay5 {
-    animation-delay: 5s;
-  }
 
   @keyframes incircle {
     0% {
-      background: gold;
-      opacity: 0.2;
+      opacity: 0.5;
     }
     100% {
-      background: purple;
       opacity: 1;
     }
   }
@@ -85,7 +82,7 @@
     }
     100% {
       transform: scale(0.7);
-      opacity: 0.4;
+      opacity: 0.3;
     }
   }
 
@@ -114,11 +111,11 @@
 </style>
 
 <div class="container" bind:this={iconEl} on:click={() => (open = !open)}>
-  {#each [0, 5] as delay}
-    <div class={`center ripple delay${delay}`} />
+  {#each [delay, delay + 5] as delay}
+    <div class="center ripple" style={`animation-delay: ${delay}s;`} />
   {/each}
 
-  <div class="center outter" />
+  <div class="center outter" style={`animation-delay: ${delay}s;`} />
   <div class="center inner" />
   {#if open}
     <div class="popup w3-card-4 3-round-xlarge">
