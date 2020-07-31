@@ -11,6 +11,24 @@
   onMount(() => {
     new mapboxgl.Marker(iconEl).setLngLat({ lng, lat }).addTo(map);
   });
+
+  export let media;
+
+  const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+
+  $: if (media) {
+    const urls = media.text.match(urlRegex);
+    if (urls) {
+      urls.forEach((url) => {
+        media.text = media.text.replace(
+          url,
+          `<a href={${url}} class="w3-text-blue">${url}</a>`
+        );
+      });
+    }
+  }
+
+  let open = false;
 </script>
 
 <style>
@@ -21,6 +39,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
   .center {
     border-radius: 50%;
@@ -30,66 +49,110 @@
     width: 10px;
     height: 10px;
     background: purple;
+    animation: incircle 5s infinite;
   }
   .outter {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background: white;
-    animation: fade 2s infinite;
+    animation: outcircle 5s infinite;
   }
   .ripple {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     background: purple;
-    animation: ripple 12s infinite;
+    animation: ripple 10s infinite;
   }
-  .d-0 {
-    animation-delay: 0s;
-  }
-  .d-2 {
-    animation-delay: 2s;
-  }
-  .d-4 {
-    animation-delay: 4s;
-  }
-  .d-6 {
-    animation-delay: 6s;
-  }
-  .d-8 {
-    animation-delay: 8s;
-  }
-  .d-10 {
-    animation-delay: 10s;
+  .delay5 {
+    animation-delay: 5s;
   }
 
-  @keyframes fade {
+  @keyframes incircle {
+    0% {
+      background: gold;
+      opacity: 0.2;
+    }
+    100% {
+      background: purple;
+      opacity: 1;
+    }
+  }
+
+  @keyframes outcircle {
     0% {
       transform: scale(1);
       opacity: 1;
     }
     100% {
-      transform: scale(0.9);
-      opacity: 0.8;
+      transform: scale(0.7);
+      opacity: 0.4;
     }
   }
 
   @keyframes ripple {
     0% {
       transform: scale(1);
-      opacity: 1;
+      opacity: 0.5;
     }
     100% {
-      transform: scale(8);
+      transform: scale(6);
       opacity: 0;
     }
   }
+
+  .popup {
+    background: white;
+    min-width: 300px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    top: -50px;
+    left: 50px;
+    cursor: auto;
+  }
 </style>
 
-<div class="container" bind:this={iconEl}>
-  {#each [0, 2, 4, 6, 8, 10] as delay}
-    <div class={`center outter ripple d-${delay}`} />
+<div class="container" bind:this={iconEl} on:click={() => (open = !open)}>
+  {#each [0, 5] as delay}
+    <div class={`center ripple delay${delay}`} />
   {/each}
 
   <div class="center outter" />
   <div class="center inner" />
+  {#if open}
+    <div class="popup w3-card-4 3-round-xlarge">
+
+      <div class="w3-container w3-blue w3-right-align">
+        {new Intl.DateTimeFormat(undefined, {
+          timeStyle: 'short',
+          dateStyle: 'short',
+        }).format(new Date(media.created_at))}
+      </div>
+
+      <div class="w3-container">
+        <h6>
+          {@html media.text}
+        </h6>
+      </div>
+      {#if media && media.media && media.media.video_info}
+        <video width="100%" height="100%" controls autoplay loop>
+          {#each media.media.video_info.variants as variant}
+            <source src={variant.url} type={variant.content_type} />
+          {/each}
+        </video>
+      {:else if media && media.media}
+        <img
+          src={media.media.media_url}
+          alt={media.media.type}
+          width="100%"
+          height="100%" />
+      {/if}
+
+      <div class="w3-container w3-blue">
+        <pre>by: {media.user_name} @{media.screen_name}</pre>
+      </div>
+
+    </div>
+  {/if}
 </div>
