@@ -5,12 +5,16 @@
   import SearchBar from './controls/SearchBar.svelte';
   import BreathMarker from './controls/BreathMarker.svelte';
   import MediaMarkersAround from './controls/media/MediaMarkersAround.svelte';
+  import { isZh } from '../store';
 </script>
 
 <Map lat={40.7127837} lng={-74.0059413} zoom={13}>
-  <MapStyleButtons />
+
   <CentralMarker />
   <SearchBar />
+  {#if !$isZh}
+    <MapStyleButtons />
+  {/if}
   <MediaMarkersAround />
   <!-- <MapMarker lat={37.8225} lon={-122.0024} label="Svelte Body Shaping"/>
     <MapMarker lat={33.8981} lon={-118.4169} label="Svelte Barbershop & Essentials"/>

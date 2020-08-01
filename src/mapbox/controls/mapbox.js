@@ -8,13 +8,13 @@ const key = {};
 
 const placesUri = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
-const getPlaceSuggests = async (queryStr, center) => {
+const getPlaceSuggests = async (queryStr, center, language = 'en') => {
   if (queryStr.trim().length < 2) return [];
   const encodedStr = encodeURI(queryStr);
   const queryCenter = center ? `proximity=${center.lng},${center.lat}&` : '';
   try {
     const resp = await fetch(
-      `${placesUri}/${encodedStr}.json?${queryCenter}access_token=${mapboxgl.accessToken}`
+      `${placesUri}/${encodedStr}.json?${queryCenter}access_token=${mapboxgl.accessToken}&language=${language}`
     );
     const data = await resp.json();
     return data;
@@ -23,10 +23,10 @@ const getPlaceSuggests = async (queryStr, center) => {
   }
 };
 
-const getPlace = async ({ lng, lat }) => {
+const getPlace = async ({ lng, lat }, language = 'en') => {
   try {
     const resp = await fetch(
-      `${placesUri}/${lng},${lat}.json?access_token=${mapboxgl.accessToken}`
+      `${placesUri}/${lng},${lat}.json?access_token=${mapboxgl.accessToken}&language=${language}`
     );
     const data = await resp.json();
     return data;

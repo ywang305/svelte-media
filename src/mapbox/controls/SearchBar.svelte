@@ -3,6 +3,7 @@
   import { slide } from 'svelte/transition';
   import { mapboxgl, key, getPlace, getPlaceSuggests } from './mapbox.js';
   import IconMaker from '../../components/IconMaker.svelte';
+  import { isZh } from '../../store';
 
   const { getMap } = getContext(key);
   const map = getMap();
@@ -15,7 +16,7 @@
 
   map
     .on('moveend', async () => {
-      const data = await getPlace(map.getCenter());
+      const data = await getPlace(map.getCenter(), $isZh ? 'zh-Hans' : 'en');
       const place_name =
         data &&
         data.features &&
@@ -28,7 +29,11 @@
 
   const onInputHandler = async (e) => {
     placeStr = e.target.value;
-    const data = await getPlaceSuggests(placeStr, map.getCenter());
+    const data = await getPlaceSuggests(
+      placeStr,
+      map.getCenter(),
+      $isZh ? 'zh-Hans' : 'en'
+    );
     suggests =
       (data &&
         data.features &&
@@ -61,9 +66,9 @@
   };
 
   const icon_uri = {
-    airport: 'svg/3112/3112928.svg',
-    address: 'svg/717/717530.svg',
-    place: 'svg/2909/2909523.svg',
+    airport: '/icons/svg/3112/3112928.svg',
+    address: '/icons/svg/717/717530.svg',
+    place: '/icons/svg/2909/2909523.svg',
   };
 </script>
 
@@ -116,7 +121,7 @@
     value={placeStr}
     on:input={onInputHandler}
     on:focus={onInputHandler}
-    placeholder="enter address" />
+    placeholder={$isZh ? '输入地址' : 'enter address'} />
   {#if suggests.length}
     <div id="vertical-menu" transition:slide>
       {#each suggests as { place_name, center, place_type }, i}

@@ -31,13 +31,13 @@ function getTwiPlaceCenter(twiObj) {
   }
 }
 
-export default async ({ lng, lat, bounds }) => {
+export default async ({ lng, lat, bounds, lang = '' }) => {
   const ne = bounds._ne;
   const sw = bounds._sw;
   const search_radius = distance(ne, sw) / 4;
 
   const resp = await fetch(
-    `https://nyc-function.azurewebsites.net/api/twitter_search?lng=${lng}&lat=${lat}&radius=${search_radius}`
+    `https://nyc-function.azurewebsites.net/api/twitter_search?lng=${lng}&lat=${lat}&radius=${search_radius}&lang=${lang}`
   );
   const tweets = await resp.json();
   return tweets

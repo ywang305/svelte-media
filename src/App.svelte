@@ -1,16 +1,35 @@
 <script>
   import MapBox from './mapbox/MapBox.svelte';
-  // import MapMarker from './mapbox/MapMarker.svelte';
+  import { isZh } from './store';
+  import Lang from './i18n/Lang.svelte';
+  import IconMaker from './components/IconMaker.svelte';
 
   export let name;
+  $: name_locale = $isZh ? '时闻快推' : name;
 </script>
 
 <style>
+  :global(body) {
+    /* this will apply to <body> */
+    padding: 0;
+  }
   main {
     text-align: center;
-    padding: 1em;
-    /* max-width: 240px; */
-    margin: 0 auto;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  #logo {
+    height: 42px;
+    width: 42px;
+  }
+  #logo-title {
+    display: flex;
+    align-items: center;
+    padding-right: 1em;
   }
 
   /* @media (min-width: 640px) {
@@ -34,7 +53,20 @@
 </svelte:head>
 
 <main>
-  <h1>Hello {name}!</h1>
+  <div class="w3-white w3-padding nav w3-card w3-margin-bottom">
+    <div id="logo-title">
+      <div id="logo" class="w3-left">
+        <IconMaker path="/icons/svg/3225/3225124.svg" />
+      </div>
+      <div class="w3-xlarge w3-margin-left w3-text-indigo">{name_locale}!</div>
+    </div>
+
+    <div>
+      <Lang />
+    </div>
+
+  </div>
+
   <MapBox />
   <p>
     This app is built by

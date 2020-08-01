@@ -1,17 +1,56 @@
 <script>
   import { onMount, setContext } from 'svelte';
   import { mapboxgl, key } from './mapbox.js';
-
-  setContext(key, {
-    getMap: () => map,
-  });
+  import MapboxLanguage from '@mapbox/mapbox-gl-language';
+  import { isZh } from '../../store';
 
   export let lat;
   export let lng;
   export let zoom;
 
+  setContext(key, {
+    getMap: () => map,
+  });
+
   let container;
   let map;
+  let mbLang;
+
+  $: if (map && map.loaded()) {
+    const style = map.getStyle();
+    map.setStyle(mbLang.setLanguage(style, $isZh ? 'zh' : 'en'));
+  }
+
+  function createMap(defaultLanguage = 'en') {
+    mbLang = new MapboxLanguage({ defaultLanguage });
+
+    map = new mapboxgl.Map({
+      container,
+      style: 'mapbox://styles/mapbox/streets-v10',
+      center: [lng, lat],
+      zoom,
+      pitch: 0,
+      attributionControl: false,
+      logoPosition: 'bottom-right',
+    })
+      .addControl(
+        new mapboxgl.NavigationControl({
+          showZoom: false,
+          visualizePitch: true,
+        }),
+        'bottom-right'
+      )
+      .addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: true,
+        }),
+        'bottom-right'
+      )
+      .addControl(mbLang);
+  }
 
   onMount(() => {
     const link = document.createElement('link');
@@ -19,33 +58,7 @@
     link.href = 'https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css';
 
     link.onload = () => {
-      map = new mapboxgl.Map({
-        container,
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [lng, lat],
-        zoom,
-        pitch: 0,
-        attributionControl: false,
-        logoPosition: 'bottom-right',
-      });
-      // console.log('map instance: ', map);
-      map
-        .addControl(
-          new mapboxgl.NavigationControl({
-            showZoom: false,
-            visualizePitch: true,
-          }),
-          'bottom-right'
-        )
-        .addControl(
-          new mapboxgl.GeolocateControl({
-            positionOptions: {
-              enableHighAccuracy: true,
-            },
-            trackUserLocation: true,
-          }),
-          'bottom-right'
-        );
+      createMap($isZh ? 'zh' : 'en');
     };
 
     document.head.appendChild(link);
