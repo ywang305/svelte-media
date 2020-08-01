@@ -1,6 +1,8 @@
 # Svelte GeoMedia
 - This project is a web app that search latest twitters near a location indicated on the map,
-- demo link : [Svelte GeoMedia ](https://svelte-media.vercel.app/)
+
+### Live WebApp Link
+- [Svelte GeoMedia ](https://svelte-media.vercel.app/)   [ https://svelte-media.vercel.app/  ]
 
 ## organized stack
 ![image](https://user-images.githubusercontent.com/24782000/89019072-c35c2e80-d2ea-11ea-9610-f47e165eca22.png)
