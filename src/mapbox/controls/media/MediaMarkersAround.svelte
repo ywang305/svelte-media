@@ -2,11 +2,31 @@
   import { getContext, onMount } from 'svelte';
   import { mapboxgl, key } from '../mapbox.js';
   import MediaMarker from './MediaMarker.svelte';
+  import twitter_search from './twitter_search';
 
   const { getMap } = getContext(key);
   const map = getMap();
 
   let medias = [];
+
+  let lastCenter;
+  async function twitterSearch() {
+    const { lng, lat } = map.getCenter();
+    lastCenter = { lng, lat };
+    const bounds = map.getBounds();
+    medias = await twitter_search({ lng, lat, bounds });
+  }
+
+  map.on('moveend', async () => {
+    const bounds = map.getBounds();
+    if (!lastCenter || !bounds.contains(lastCenter)) {
+      await twitterSearch();
+    }
+  });
+  map.on('zoomend', twitterSearch);
+  map.on('resize', twitterSearch);
+
+  /*
   function getRnd(min, max, id_str) {
     if (!id_str) {
       return Math.random() * (max - min) + min;
@@ -74,6 +94,8 @@
       }
     }
   });
+
+  */
 </script>
 
 {#each medias
