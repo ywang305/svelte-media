@@ -5,7 +5,10 @@
   import IconMaker from './components/IconMaker.svelte';
 
   export let name;
-  $: name_locale = $isZh ? '时闻快推' : name;
+  $: title_locale = $isZh ? '时闻快推' : name;
+  $: sub_title_locale = $isZh
+    ? '世界不同地方的人们正在说什么'
+    : 'twitts happening around the world';
 </script>
 
 <style>
@@ -58,7 +61,15 @@
       <div id="logo" class="w3-left">
         <IconMaker path="/icons/svg/3225/3225124.svg" />
       </div>
-      <div class="w3-xlarge w3-margin-left w3-text-indigo">{name_locale}!</div>
+      <div class="w3-margin-left">
+        <div class="w3-xlarge w3-text-indigo w3-left-align">
+          {title_locale}!
+        </div>
+        <div class="w3-small w3-text-blue-grey w3-left-align">
+          {sub_title_locale}
+        </div>
+      </div>
+
     </div>
 
     <div>
