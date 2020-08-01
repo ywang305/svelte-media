@@ -2,14 +2,17 @@
 - This project is a web app that search latest twitters near a location indicated on the map,
 - demo link : [Svelte GeoMedia ](https://svelte-media.vercel.app/)
 
-## organized tech stack
+## organized stack
 ![image](https://user-images.githubusercontent.com/24782000/89019072-c35c2e80-d2ea-11ea-9610-f47e165eca22.png)
-## lastest twitter geo hotspots
-![twitters](https://user-images.githubusercontent.com/24782000/89018415-db7f7e00-d2e9-11ea-957f-3316fba2de24.png)
-## geocoding enabled place autocomplete
-![auto-complet-geo-search](https://user-images.githubusercontent.com/24782000/89018518-023db480-d2ea-11ea-8390-f5b1fa398b00.png)
-## twitter image and video
-![text/multimedia](https://user-images.githubusercontent.com/24782000/89018706-40d36f00-d2ea-11ea-9302-fdfbac148b38.png)
+
+## lastest news/img/video from twits
+![image](https://user-images.githubusercontent.com/24782000/89100764-ec9ebc80-d3c7-11ea-8310-0cd7717a25d5.png)
+
+## geocoding + autocompleted place search
+![image](https://user-images.githubusercontent.com/24782000/89100865-c3caf700-d3c8-11ea-84d7-905d4da7b5c7.png)
+
+## Chinese language UI and content support
+![image](https://user-images.githubusercontent.com/24782000/89100837-78b0e400-d3c8-11ea-8541-2fdfcd13252c.png)
 
 
 
