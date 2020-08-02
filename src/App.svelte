@@ -24,6 +24,7 @@
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 4px;
   }
   #logo {
     height: 42px;
@@ -56,7 +57,7 @@
 </svelte:head>
 
 <main>
-  <div class="w3-white w3-padding nav w3-card w3-margin-bottom">
+  <nav class="nav w3-white w3-padding w3-card">
     <div id="logo-title">
       <div id="logo" class="w3-left">
         <IconMaker path="/icons/svg/3225/3225124.svg" />
@@ -76,9 +77,10 @@
       <Lang />
     </div>
 
-  </div>
+  </nav>
 
   <MapBox />
+
   <p>
     This app is built by
     <a href="https://svelte.dev/tutorial">Svelte</a>

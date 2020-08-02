@@ -73,11 +73,16 @@
 <style>
   div {
     width: 100%;
-    min-height: calc(100vh - 100px);
+    height: calc(100vh - 88px);
+  }
+  @media (max-width: 460px) {
+    div {
+      height: calc(100vh - 138px);
+    }
   }
 </style>
 
-<div bind:this={container} id="mapbox-container">
+<div bind:this={container} id="map-container">
   {#if map}
     <slot />
   {/if}
