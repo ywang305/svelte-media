@@ -24,7 +24,7 @@
       urls.forEach((url) => {
         media.text = media.text.replace(
           url,
-          `<a href={${url}} class="w3-text-blue">${url}</a>`
+          `<a href="${url}" class="w3-text-blue" target="_blank">${url}</a>`
         );
       });
     }
