@@ -9,6 +9,13 @@
   $: sub_title_locale = $isZh
     ? '世界不同地方的人们正在说什么'
     : 'twitts happening around the world';
+  const metas = {
+    author: 'Yao',
+    description:
+      'Svelte GeoMedia: latest twits happening around the world, built by svelte',
+    keywords:
+      'svelte, geomedia, map, twitter, media, 时闻, 快推, 推特, 位置, 地图',
+  };
 </script>
 
 <style>
@@ -44,6 +51,9 @@
 </style>
 
 <svelte:head>
+  {#each Object.keys(metas) as name}
+    <metas {name} content={metas[name]} />
+  {/each}
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" />
