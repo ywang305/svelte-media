@@ -92,7 +92,9 @@
   <MapBox />
 
   <p>
-    This app is built by
-    <a href="https://svelte.dev/tutorial">Svelte</a>
+    The project on
+    <a href="https://github.com/ywang305/svelte-media" target="_blank">
+      Github
+    </a>
   </p>
 </main>
