@@ -5,24 +5,21 @@
   const { getMap } = getContext(key);
   const map = getMap();
 
-  export let lng;
-  export let lat;
   let iconEl;
+  export let twit;
   onMount(() => {
+    const { lng, lat } = twit;
     new mapboxgl.Marker(iconEl).setLngLat({ lng, lat }).addTo(map);
   });
 
   const delay = Math.random() * (8 - 0) + 0;
-
-  export let media;
-
   const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
 
-  $: if (media) {
-    const urls = media.text.match(urlRegex);
+  $: if (twit) {
+    const urls = twit.text.match(urlRegex);
     if (urls) {
       urls.forEach((url) => {
-        media.text = media.text.replace(
+        twit.text = twit.text.replace(
           url,
           `<a href="${url}" class="w3-text-blue" target="_blank">${url}</a>`
         );
@@ -30,7 +27,37 @@
     }
   }
 
+  let created_at = '';
+  let place_name = '';
+  let user_name = '';
+  let screen_name = '';
+  let media = null;
+
   let open = false;
+  $: if (open) {
+    created_at = twit.created_at;
+    if (twit.place) {
+      place_name = twit.place.name;
+    }
+    user_name = twit.user_name;
+    screen_name = twit.screen_name;
+
+    media = twit.media;
+  }
+
+  let imgError = false;
+  $: if (imgError) {
+    const relayImage = async () => {
+      const resp = await fetch(
+        `https://nyc-function.azurewebsites.net/api/twitter_img?url=${media.media_url}`
+      );
+      const blob = await resp.blob();
+      const media_url = URL.createObjectURL(blob);
+      imgError = false;
+      media = { ...media, media_url };
+    };
+    relayImage();
+  }
 </script>
 
 <style>
@@ -117,37 +144,43 @@
 
   <div class="center outter" style={`animation-delay: ${delay}s;`} />
   <div class="center inner" />
+
   {#if open}
     <div class="popup w3-card-4 3-round-xlarge">
 
       <div class="w3-container w3-blue w3-right-align">
-        {new Intl.DateTimeFormat(undefined, {
+        {place_name} &nbsp; {new Intl.DateTimeFormat(undefined, {
           timeStyle: 'short',
           dateStyle: 'short',
-        }).format(new Date(media.created_at))}
+        }).format(new Date(created_at))}
       </div>
 
       <div class="w3-container">
         <h6>
-          {@html media.text}
+          {@html twit.text}
         </h6>
       </div>
-      {#if media && media.media && media.media.video_info}
+
+      {#if media && media.type === 'photo'}
+        <img
+          src={media.media_url}
+          alt={media.type}
+          width="100%"
+          height="100%"
+          on:error={() => {
+            console.log('img error');
+            imgError = true;
+          }} />
+      {:else if media && media.type === 'video'}
         <video width="100%" height="100%" controls autoplay loop>
-          {#each media.media.video_info.variants as variant}
+          {#each twit.media.video_info.variants as variant}
             <source src={variant.url} type={variant.content_type} />
           {/each}
         </video>
-      {:else if media && media.media}
-        <img
-          src={media.media.media_url}
-          alt={media.media.type}
-          width="100%"
-          height="100%" />
       {/if}
 
       <div class="w3-container w3-blue">
-        <pre>by: {media.user_name} @{media.screen_name}</pre>
+        <pre>by: {user_name} @{screen_name}</pre>
       </div>
 
     </div>

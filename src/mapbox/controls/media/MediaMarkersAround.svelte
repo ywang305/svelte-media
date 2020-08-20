@@ -8,14 +8,14 @@
   const { getMap } = getContext(key);
   const map = getMap();
 
-  let medias = [];
+  let twits = [];
 
   let lastCenter;
   async function twitterSearch() {
     const { lng, lat } = map.getCenter();
     lastCenter = { lng, lat };
     const bounds = map.getBounds();
-    medias = await twitter_search({
+    twits = await twitter_search({
       lng,
       lat,
       bounds,
@@ -38,12 +38,15 @@
   }
 </script>
 
-{#each medias
+{#each twits
   .sort((a, b) => {
     const agentA = a.media ? Object.keys(a.media).length : 0;
     const agentB = b.media ? Object.keys(b.media).length : 0;
+    if (!agentA && !agentB) {
+      return b.text.length - a.text.length;
+    }
     return agentB - agentA;
   })
-  .slice(0, 30) as media (media.id)}
-  <MediaMarker lng={media.lng} lat={media.lat} {media} />
+  .slice(0, 20) as twit (twit.id)}
+  <MediaMarker {twit} />
 {/each}
