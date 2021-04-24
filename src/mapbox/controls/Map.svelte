@@ -15,6 +15,7 @@
   let container;
   let map;
   let mbLang;
+  let geolocate;
 
   $: if (map && map.loaded()) {
     const style = map.getStyle();
@@ -23,6 +24,18 @@
 
   function createMap(defaultLanguage = 'en') {
     mbLang = new MapboxLanguage({ defaultLanguage });
+
+    geolocate = new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: true,
+        });
+    geolocate.on('geolocate', function(data) {
+      const {coords, timestamp} = data;
+      // send ;
+
+    });
 
     map = new mapboxgl.Map({
       container,
@@ -41,12 +54,7 @@
         'bottom-right'
       )
       .addControl(
-        new mapboxgl.GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true,
-          },
-          trackUserLocation: true,
-        }),
+        geolocate,
         'bottom-right'
       )
       .addControl(mbLang);
