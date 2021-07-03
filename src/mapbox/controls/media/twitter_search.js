@@ -36,7 +36,7 @@ export default async ({ lng, lat, bounds, lang = "" }) => {
   const sw = bounds._sw;
   const search_radius = distance(ne, sw) / 4;
 
-  const host = "http://34.238.234.55";
+  const host = "https://nyc-function.azurewebsites.net";
 
   const resp = await fetch(
     `${host}/api/twitter_search?lng=${lng}&lat=${lat}&radius=${search_radius}&lang=${lang}`
