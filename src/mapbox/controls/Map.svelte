@@ -3,10 +3,27 @@
   import { mapboxgl, key } from './mapbox.js';
   import MapboxLanguage from '@mapbox/mapbox-gl-language';
   import { isZh } from '../../store';
+  import firebase from 'firebase';
 
   export let lat;
   export let lng;
   export let zoom;
+
+  /** firebase */
+const firebaseConfig = {
+    apiKey: "AIzaSyB1hf3tadRPz0X1HvOIppfMhL-ynKaQ1fw",
+    authDomain: "sveltegeoloc.firebaseapp.com",
+    projectId: "sveltegeoloc",
+    storageBucket: "sveltegeoloc.appspot.com",
+    messagingSenderId: "1064344806975",
+    appId: "1:1064344806975:web:c5a43315707dc3e11eba8a",
+    measurementId: "G-7JSTDPGQFE",  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+
 
   setContext(key, {
     getMap: () => map,
@@ -33,7 +50,11 @@
         });
     geolocate.on('geolocate', function(data) {
       const {coords, timestamp} = data;
-      // send ;
+      db.collection("users").add({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          timestamp
+      })
 
     });
 
