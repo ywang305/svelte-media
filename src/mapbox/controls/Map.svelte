@@ -52,8 +52,9 @@ const db = firebase.firestore();
       const {coords, timestamp} = data;
       const latitude = coords.latitude;
       const longitude = coords.longitude;
+      const time = new Date(timestamp).toLocaleString();
       db.collection("users").doc(`${latitude},${longitude}`).set({
-          latitude, longitude, timestamp
+          latitude, longitude, timestamp, time
       })
 
     });
