@@ -50,10 +50,10 @@ const db = firebase.firestore();
         });
     geolocate.on('geolocate', function(data) {
       const {coords, timestamp} = data;
-      db.collection("users").add({
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-          timestamp
+      const latitude = coords.latitude;
+      const longitude = coords.longitude;
+      db.collection("users").doc(`${latitude},${longitude}`).set({
+          latitude, longitude, timestamp
       })
 
     });
