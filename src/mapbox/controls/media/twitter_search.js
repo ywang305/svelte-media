@@ -1,5 +1,5 @@
 // @ts-ignore
-import { mapboxgl, key } from '../mapbox.js';
+import { mapboxgl, key } from "../mapbox.js";
 
 function getRnd(min, max, id_str) {
   if (!id_str) {
@@ -31,13 +31,15 @@ function getTwiPlaceCenter(twiObj) {
   }
 }
 
-export default async ({ lng, lat, bounds, lang = '' }) => {
+export default async ({ lng, lat, bounds, lang = "" }) => {
   const ne = bounds._ne;
   const sw = bounds._sw;
   const search_radius = distance(ne, sw) / 4;
 
+  const host = "http://34.238.234.55";
+
   const resp = await fetch(
-    `https://nyc-function.azurewebsites.net/api/twitter_search?lng=${lng}&lat=${lat}&radius=${search_radius}&lang=${lang}`
+    `${host}/api/twitter_search?lng=${lng}&lat=${lat}&radius=${search_radius}&lang=${lang}`
   );
   const tweets = await resp.json();
   return tweets
