@@ -48,9 +48,7 @@
   let imgError = false;
   $: if (imgError) {
     const relayImage = async () => {
-      const resp = await fetch(
-        `https://nyc-function.azurewebsites.net/api/twitter_img?url=${media.media_url}`
-      );
+      const resp = await fetch(`/api/twitter_img?url=${media.media_url}`);
       const blob = await resp.blob();
       const media_url = URL.createObjectURL(blob);
       imgError = false;

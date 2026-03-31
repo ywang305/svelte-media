@@ -22,6 +22,7 @@
     "firebase": "^8.7.0",
     "isomorphic-fetch": "^2.2.1",
     "mapbox-gl": "^1.11.1",
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "tslib": "^1.14.1"
   }
 }

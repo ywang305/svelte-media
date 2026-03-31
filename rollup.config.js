@@ -78,6 +78,12 @@ function serve() {
           stdio: ['ignore', 'inherit', 'inherit'],
           shell: true,
         });
+
+        // Start the API dev server for /api/* routes
+        require('child_process').spawn('node', ['api/dev-server.js'], {
+          stdio: ['ignore', 'inherit', 'inherit'],
+          shell: true,
+        });
       }
     },
   };

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.flickr.com)",
+      "Bash(npm install:*)",
+      "Bash(vercel:*)",
+      "Bash(curl -s \"https://api.inaturalist.org/v1/observations?lat=40.7589&lng=-73.9851&radius=5&per_page=5&photos=true&geoprivacy=open&order_by=created_at&order=desc\")",
+      "Bash(npm run:*)",
+      "Bash(node:*)",
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:cdn-icons-png.flaticon.com)"
+    ]
+  }
+}

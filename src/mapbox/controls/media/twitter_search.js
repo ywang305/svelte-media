@@ -18,32 +18,22 @@ function distance(coord1, coord2) {
     ) / 1000
   ); // kilo-meters
 }
-function getTwiPlaceCenter(twiObj) {
-  if (twiObj.place && twiObj.place.bounding_box) {
-    const coords = twiObj.place.bounding_box.coordinates[0];
-    const [lng1, lat1] = coords[0];
-    const [lng2, lat2] = coords[2];
-    const placeCenter = {
-      lng: (lng1 + lng2) / 2,
-      lat: (lat1 + lat2) / 2,
-    };
-    return placeCenter;
-  }
-}
 
 export default async ({ lng, lat, bounds, lang = "" }) => {
   const ne = bounds._ne;
   const sw = bounds._sw;
   const search_radius = distance(ne, sw) / 4;
 
-  const host = "https://nyc-function.azurewebsites.net";
-
+  const apiBase = location.port === '5000' ? 'http://localhost:5001' : '';
   const resp = await fetch(
-    `${host}/api/twitter_search?lng=${lng}&lat=${lat}&radius=${search_radius}&lang=${lang}`
+    `${apiBase}/api/twitter_search?lng=${lng}&lat=${lat}&radius=${search_radius}&lang=${lang}`
   );
   const tweets = await resp.json();
   return tweets
     ? tweets.map((obj) => {
+        // Use exact coordinates when the API already provides them (e.g. iNaturalist)
+        if (obj.lng != null && obj.lat != null) return obj;
+
         const lng = getRnd(
           sw.lng,
           ne.lng,

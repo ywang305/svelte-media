@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Svelte Dev Server",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 5000
+    },
+    {
+      "name": "Vercel Dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vercel", "dev"],
+      "port": 3000
+    }
+  ]
+}
