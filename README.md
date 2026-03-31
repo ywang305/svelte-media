@@ -1,30 +1,32 @@
 # Svelte GeoMedia
+
 - This project is a web app that search latest twitters near a location indicated on the map,
 
 ### Live WebApp Link
-- [Svelte GeoMedia ](https://svelte-media.vercel.app/)   [ https://svelte-media.vercel.app/  ]
+
+- [Svelte GeoMedia ](https://svelte-media.vercel.app/) [ https://svelte-media.vercel.app/ ]
 
 ## organized stack
+
 ![image](https://user-images.githubusercontent.com/24782000/89019072-c35c2e80-d2ea-11ea-9610-f47e165eca22.png)
 
 ## lastest news/img/video from twits
+
 ![image](https://user-images.githubusercontent.com/24782000/89100764-ec9ebc80-d3c7-11ea-8310-0cd7717a25d5.png)
 
 ## geocoding + autocompleted place search
+
 ![image](https://user-images.githubusercontent.com/24782000/89100865-c3caf700-d3c8-11ea-84d7-905d4da7b5c7.png)
 
 ## Chinese language UI and content support
+
 ![image](https://user-images.githubusercontent.com/24782000/89100837-78b0e400-d3c8-11ea-8541-2fdfcd13252c.png)
-
-
-
-
 
 ---
 
 # svelte app
-*Looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
 
+_Looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)_
 
 This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
 
@@ -35,8 +37,7 @@ npx degit sveltejs/template svelte-app
 cd svelte-app
 ```
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
-
+_Note that you will need to have [Node.js](https://nodejs.org) installed._
 
 ## Get started
 
@@ -57,7 +58,6 @@ Navigate to [localhost:5000](http://localhost:5000). You should see your app run
 
 By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
 
-
 ## Building and running in production mode
 
 To create an optimised version of the app:
@@ -68,12 +68,11 @@ npm run build
 
 You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
 
-
 ## Single-page app mode
 
 By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
 
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
+If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for _any_ path. You can make it so by editing the `"start"` command in package.json:
 
 ```js
 "start": "sirv public --single"
@@ -109,6 +108,8 @@ Then, from within your project folder:
 cd public
 vercel deploy --name my-project
 ```
+
+updated to node version 24.x
 
 ### With [surge](https://surge.sh/)
 
